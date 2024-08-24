@@ -1,0 +1,332 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --background-primary: #ededed;
+    --foreground-primary: #000000;
+    --foreground-accent: #FF1010;
+
+    --box-shadow: 0 0 calc(var(--container-width) * 0.02) 0 var(--foreground-accent);
+
+    --border-radius: calc(var(--container-width) * 0.02);
+
+    --font-family-mono: 'IBM Plex Mono', monospace;
+    --font-family-decorative: 'UnifrakturMaguntia', cursive;
+
+    --container-width: 540px;
+    --container-height: 960px;
+}
+
+body {
+    font-family: var(--font-family-mono);
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--foreground-primary);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    z-index: 10;
+    transition: all 0.5s ease-in-out;
+}
+
+#analyze {
+    width: 80%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: min(4vw, 4vh);
+}
+
+#loadingBarContainer {
+    width: 100%;
+    height: min(4vw, 4vh);
+    background-color: var(--background-primary);
+    border: min(0.5vw, 0.5vh) solid black;
+    border-radius: 20vw;
+    overflow: hidden;
+}
+
+#loadingBar {
+    width: 0%;
+    height: 100%;
+    background-color: var(--foreground-primary);
+}
+
+#logs {
+    width: min(60vw, 60vh);
+    height: min(80vw, 80vh);
+    background-color: var(--foreground-primary);
+    color: var(--foreground-accent);
+    padding: min(2vw, 2vh);
+}
+
+#container {
+    position: relative;
+    width: var(--container-width);
+    height: var(--container-height);
+    background-color: var(--background-primary);
+    padding: calc(var(--container-width) * 0.02);
+    display: grid;
+    grid-template-columns: 12% auto calc(var(--container-width) * 0.25);
+    grid-template-rows: 60% auto calc(var(--container-width) * 0.25);
+    gap: calc(var(--container-width) * 0.02);
+    grid-template-areas: 
+    "barcode shader shader"
+    "barcode text text"
+    "barcode glyph qrcode"
+    ;
+}
+
+#barcode {
+    position: relative;
+    grid-area: barcode;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#barcodeDetails {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    background-color: var(--background-primary);
+    font-size: calc(var(--container-width) * 0.022);
+}
+
+#barcodeDetailsTop {
+    position: absolute;
+    top: 0;
+    right: 90%;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transform-origin: top right;
+    transform: rotateZ(-90deg);
+}
+
+#barcodeDetailsBottom {
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    transform-origin: top left;
+    transform: translate(0, 100%) rotateZ(-90deg);
+}
+
+#shader {
+    grid-area: shader;
+    background-color: var(--foreground-primary);
+    width: 100%;
+    height: 100%;
+}
+
+#text {
+    min-height: fit-content;
+    font-family: var(--font-family-decorative);
+    grid-area: text;
+    font-size: calc(var(--container-width) * 0.04);
+    color: var(--background-primary);
+    padding-right: 50%;
+    mix-blend-mode: difference;
+}
+
+#glyph {
+    position: relative;
+    width: 100%;
+    max-width: calc(var(--container-width) * 0.5);
+    height: fit-content;
+    grid-area: glyph;
+    background-color: var(--foreground-primary);
+    border-radius: var(--border-radius);
+    padding: calc(var(--container-width) * 0.025) calc(var(--container-width) * 0.04);
+    align-self: flex-end;
+}
+
+#glyph > svg {
+    width: 100%;
+    height: 100%;
+}
+
+#circle {
+    position: absolute;
+    top: 0;
+    left: 30%;
+    width: calc(var(--container-width) * 0.2);
+    height: calc(var(--container-width) * 0.2);
+    border-radius: 50%;
+    border: calc(var(--container-width) * 0.01) solid transparent;
+
+    background: 
+        linear-gradient(hsl(0, 0%, 50%), hsl(0, 0%, 50%)) padding-box,
+        conic-gradient(transparent, var(--foreground-accent) 80%, transparent) border-box;
+
+    mix-blend-mode: hard-light;
+
+    transform: translate(-50%, -50%);
+  
+    animation: rotate 3s linear infinite;
+}
+
+
+@keyframes rotate {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+#qrcode {
+    position: relative;
+    grid-area: qrcode;
+    font-size: calc(var(--container-width) * 0.015);
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+#qrcodedot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(var(--container-width) * 0.04);
+    height: calc(var(--container-width) * 0.04);
+    border-radius: 50%;
+    background: radial-gradient(var(--foreground-accent), var(--background-primary), var(--background-primary));
+    animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+#qrcodetop {
+    position: absolute;
+    top: 0;
+    left: calc(var(--container-width) * 0.05);
+    width: 100%;
+}
+
+#qrcodeleft {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    transform-origin: top left;
+    transform: rotateZ(-90deg);
+}
+
+#qrcode > img {
+    width: 80%;
+    height: 80%;
+}
+
+#uuid {
+    position: absolute;
+    top: calc(var(--container-width) * 0.04);
+    right: calc(var(--container-width) * 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-primary);
+    padding: calc(var(--container-width) * 0.02) calc(var(--container-width) * 0.04);
+    border-radius: var(--border-radius);
+    font-size: calc(var(--container-width) * 0.035);
+}
+
+#values {
+    position: absolute;
+    top: 50%;
+    right: calc(var(--container-width) * 0.04);
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--container-width) * 0.02);
+    padding: calc(var(--container-width) * 0.02);
+    font-size: calc(var(--container-width) * 0.025);
+    background-color: var(--background-primary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+
+    animation: values 8s linear infinite;
+}
+
+#values .value {
+    display: flex;
+    flex-direction: column;
+}
+
+#values .top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: calc(var(--container-width) * 0.01);
+}
+
+#values .number {
+    font-weight: 700;
+}
+
+#values .indicator {
+    position: relative;
+    left: 0;
+    width: calc(var(--container-width) * 0.015);
+    height: calc(var(--container-width) * 0.015);
+    border-radius: 50%;
+    background-color: var(--foreground-primary);
+}
+
+#values .bar {
+    width: 100%;
+    height: calc(var(--container-width) * 0.01);
+    margin: calc(var(--container-width) * 0.01) 0;
+    background: linear-gradient(90deg, var(--foreground-primary), var(--foreground-accent));
+    border-radius: calc(var(--container-width) * 0.01);
+}
+
+
+@keyframes values {
+    0% {
+        box-shadow: 0 0 calc(var(--container-width) * 0.02) 0 var(--foreground-accent);
+    }
+    50% {
+        box-shadow: 0 2vh calc(var(--container-width) * 0.08) 0 var(--foreground-accent);
+    }
+    100% {
+        box-shadow: 0 0 calc(var(--container-width) * 0.02) 0 var(--foreground-accent);
+    }
+}
