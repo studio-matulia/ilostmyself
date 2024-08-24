@@ -1,3 +1,6 @@
+
+import { setParametersInUrlAndReload } from './utils.js';
+
 export function initLoadingAnimation() {
     const duration = 5000;  // Total time for the animation (in milliseconds)
     let animationRunning = false;  // Flag to track if the animation is running
@@ -137,6 +140,7 @@ export function initLoadingAnimation() {
             } else {
                 // All logs added, hide overlay
                 setTimeout(hideOverlay, 1000);  // Hide overlay 1 second after the last log
+                setParametersInUrlAndReload();
             }
         };
 
