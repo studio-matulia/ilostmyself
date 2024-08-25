@@ -25,15 +25,19 @@ export function setText(index) {
 
 export function setQrCode(id) {
     const targetElement = document.getElementById('qrcode');
-    const url = window.location.href;
-    const width = targetElement.clientWidth;
-    const height = targetElement.clientHeight;
+    
+    const baseUrl = "https://studio-matulia.github.io/ilostmyself/";
+    const queryParams = window.location.search;
+    const fullUrl = `${baseUrl}${queryParams}`;
 
     const topElement = document.getElementById('qrcodetop');
     topElement.innerHTML = id;
 
+    const width = targetElement.clientWidth;
+    const height = targetElement.clientHeight;
+
     var qrcode = new QRCode(targetElement, {
-        text: url,
+        text: fullUrl,
         width: width,
         height: height,
         colorDark: "#000000",
