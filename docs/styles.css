@@ -1,5 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('./assets/fonts/IBMPlexMono-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('./assets/fonts/IBMPlexMono-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'UnifrakturMaguntia';
+    src: url('./assets/fonts/UnifrakturMaguntia-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
 
 * {
     box-sizing: border-box;
@@ -15,7 +33,7 @@
     --border-radius: calc(var(--container-width) * 0.02);
 
     --font-family-mono: 'IBM Plex Mono', monospace;
-    --font-family-decorative: 'UnifrakturMaguntia', cursive;
+    --font-family-decorative: 'UnifrakturMaguntia', serif;
 
     --container-width: 540px;
     --container-height: 960px;
