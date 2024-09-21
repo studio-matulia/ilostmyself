@@ -10,14 +10,15 @@ Brief summary of the project, explaining the website and custom hardware device.
 
 
 ## Repository Structure
-
+```
 ├── docs (website)
-├── assets
+├── assets  
 │   ├── 3d models
 │   ├── arduino
 │   ├── research
 ├── launch-website.sh
 └── README.md
+```
 
 
 ## Website Details
