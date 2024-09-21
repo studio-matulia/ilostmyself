@@ -5,8 +5,8 @@
 ## Project Overview
 Brief summary of the project, explaining the website and custom hardware device. Including the relationship between both parts and the core idea behind the project.
 
-- Website: Generative artwork using shaders and typography.
 - Hardware Device: Custom-built device using Arduino, keyboard switch, LED, and 3D-printed parts.
+- Website: Shows a generative artwork based on some parameters extrated from the sensing device.
 
 
 ## Repository Structure
